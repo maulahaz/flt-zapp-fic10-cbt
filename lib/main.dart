@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'configs/x_configs.dart';
+import 'modules/login/x_logins.dart';
 import 'modules/onboarding/x_onboardings.dart';
 import 'modules/register/x_registers.dart';
 
@@ -17,13 +18,13 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => SignupBloc()),
-        // BlocProvider(create: (context) => AuthBloc()),
+        BlocProvider(create: (context) => LoginBloc()),
       ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Flutter App!!',
           theme: MyThemes.lightMode,
-          darkTheme: MyThemes.darkMode,
+          // darkTheme: MyThemes.darkMode,
           home: OnboardingPage(),
         ),
     );

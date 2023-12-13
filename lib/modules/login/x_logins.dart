@@ -1,11 +1,13 @@
 //--CONTROLLERS
-// export 'controllers/modules_ctr.dart';
+export 'controllers/login_bloc.dart';
+export 'controllers/login_event.dart';
+export 'controllers/login_state.dart';
 
 //--MODELS
 // export 'models/onboarding_mdl.dart';
 
 //--SERVICES
-// export 'services/modules_srv.dart';
+export 'services/login_srv.dart';
 
 //--PAGES AND PARTS
 export 'pages/login_pg.dart';

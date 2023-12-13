@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/extensions/x_extensions.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../configs/x_configs.dart';
 import '../../../widgets/x_widgets.dart';
 import '../../dashboard/x_dashboards.dart';
 import '../../register/x_registers.dart';
+import '../x_logins.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({super.key});
@@ -51,8 +53,43 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           SizedBox(height: 42.0),
-          MyButtons.primary(context, 'Log In', () {
-            context.pushReplacement(DashboardPage());
+          BlocConsumer<LoginBloc, LoginState>(listener: (context, state) {
+            if (state is LoginLoading) {
+              Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (state is LoginValidation) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                    content: Text("${state.value}"), backgroundColor: kRed),
+              );
+            }
+            if (state is LoginError) {
+              print('Login error');
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                    content: Text("${state.error}"), backgroundColor: kRed),
+              );
+            }
+            if (state is LoginSuccess) {
+              //simpan data ke local storage
+              AuthorizationService.saveAuthData(state.result);
+              //
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text('Welcome back. \nLogin accepted'),
+                backgroundColor: Colors.green,
+              ));
+              context.pushReplacement(DashboardPage());
+            }
+            ;
+          }, builder: (context, state) {
+            return MyButtons.primary(context, 'Log In', () {
+              // context.pushReplacement(DashboardPage());
+              context.read<LoginBloc>().add(GetLogin(
+                  email: emailController.text,
+                  password: passwordController.text));
+            });
           }),
           SizedBox(height: 24.0),
           GestureDetector(
