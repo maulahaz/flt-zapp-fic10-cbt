@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../register/x_registers.dart';
 import '../../x_dashboards.dart';
 
 class DashboardBody extends StatefulWidget {
@@ -35,8 +36,10 @@ class _DashboardBodyState extends State<DashboardBody> {
               MenuHome(
                 imagePath: 'lib/assets/images/about-us.png',
                 label: 'About Us',
-                onPressed: () {
+                onPressed: () async {
                   // context.push(const AboutUsView());
+                  final authData = await AuthorizationService.getAuthData();
+                  print(authData.accessToken);
                 },
               ),
               MenuHome(

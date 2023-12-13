@@ -20,11 +20,11 @@ class LoginService {
           },
           body: jsonEncode(loginData));
       print(response.statusCode);
-      final responseBody = json.decode(response.body);
-      print(responseBody);
+      print(response.body);
       if (response.statusCode == 200) {
-        return Right(AuthorizationModel.fromJson(responseBody));
+        return Right(AuthorizationModel.fromJson(response.body));
       } else {
+        final responseBody = json.decode(response.body);
         return Left(responseBody['message']);
       }
     } catch (e) {
